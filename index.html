@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LumenFlix - Films, Séries & Mangas en Streaming</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="app.goHome()">
+                <span class="logo-icon"><i class="fas fa-play-circle"></i></span>
+                <span class="logo-text">Lumen<span class="logo-accent">Flix</span></span>
+            </a>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" class="active" onclick="app.goHome()">Accueil</a></li>
+                <li><a href="#movies" onclick="app.showMovies()">Films</a></li>
+                <li><a href="#series" onclick="app.showSeries()">Séries</a></li>
+                <li><a href="#categories" onclick="app.showCategories()">Catégories</a></li>
+                <li><a href="#trending" onclick="app.showTrending()">Tendances</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <div class="search-box" id="searchBox">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Rechercher films, séries..." autocomplete="off">
+                    <button class="search-close" id="searchClose" onclick="app.closeSearch()"><i class="fas fa-times"></i></button>
+                </div>
+                <button class="search-toggle" id="searchToggle" onclick="app.toggleSearch()"><i class="fas fa-search"></i></button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="app.toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#" onclick="app.goHome(); app.toggleMobileMenu()">Accueil</a>
+        <a href="#movies" onclick="app.showMovies(); app.toggleMobileMenu()">Films</a>
+        <a href="#series" onclick="app.showSeries(); app.toggleMobileMenu()">Séries</a>
+        <a href="#categories" onclick="app.showCategories(); app.toggleMobileMenu()">Catégories</a>
+        <a href="#trending" onclick="app.showTrending(); app.toggleMobileMenu()">Tendances</a>
+    </div>
+
+    <!-- Main Content -->
+    <main id="mainContent">
+        <!-- Home View -->
+        <div id="homeView">
+            <!-- Hero Section -->
+            <section class="hero" id="heroSection">
+                <div class="hero-bg" id="heroBg"></div>
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <span class="hero-badge"><i class="fas fa-fire"></i> Tendance</span>
+                    <h1 class="hero-title" id="heroTitle">Chargement...</h1>
+                    <p class="hero-meta" id="heroMeta"></p>
+                    <p class="hero-desc" id="heroDesc"></p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" onclick="app.playHero()">
+                            <i class="fas fa-play"></i> Regarder
+                        </button>
+                        <button class="btn btn-secondary" onclick="app.showHeroDetails()">
+                            <i class="fas fa-info-circle"></i> Plus d'infos
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <section class="content-section" id="trendingMoviesSection">
+                    <div class="section-header">
+                        <h2 class="section-title"><i class="fas fa-fire"></i> Films Tendances</h2>
+                        <a href="#" class="see-all" onclick="app.showMovies()">Voir tout <i class="fas fa-chevron-right"></i></a>
+                    </div>
+                    <div class="carousel-container">
+                        <button class="carousel-btn prev" onclick="app.scrollCarousel('trendingMovies', -1)"><i class="fas fa-chevron-left"></i></button>
+                        <div class="carousel" id="trendingMovies"></div>
+                        <button class="carousel-btn next" onclick="app.scrollCarousel('trendingMovies', 1)"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </section>
+
+                <section class="content-section" id="popularMoviesSection">
+                    <div class="section-header">
+                        <h2 class="section-title"><i class="fas fa-star"></i> Films Populaires</h2>
+                        <a href="#" class="see-all" onclick="app.showMovies()">Voir tout <i class="fas fa-chevron-right"></i></a>
+                    </div>
+                    <div class="carousel-container">
+                        <button class="carousel-btn prev" onclick="app.scrollCarousel('popularMovies', -1)"><i class="fas fa-chevron-left"></i></button>
+                        <div class="carousel" id="popularMovies"></div>
+                        <button class="carousel-btn next" onclick="app.scrollCarousel('popularMovies', 1)"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </section>
+
+                <section class="content-section" id="topRatedMoviesSection">
+                    <div class="section-header">
+                        <h2 class="section-title"><i class="fas fa-trophy"></i> Les Mieux Notés</h2>
+                        <a href="#" class="see-all" onclick="app.showMovies()">Voir tout <i class="fas fa-chevron-right"></i></a>
+                    </div>
+                    <div class="carousel-container">
+                        <button class="carousel-btn prev" onclick="app.scrollCarousel('topRatedMovies', -1)"><i class="fas fa-chevron-left"></i></button>
+                        <div class="carousel" id="topRatedMovies"></div>
+                        <button class="carousel-btn next" onclick="app.scrollCarousel('topRatedMovies', 1)"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </section>
+
+                <section class="content-section" id="popularSeriesSection">
+                    <div class="section-header">
+                        <h2 class="section-title"><i class="fas fa-tv"></i> Séries Populaires</h2>
+                        <a href="#" class="see-all" onclick="app.showSeries()">Voir tout <i class="fas fa-chevron-right"></i></a>
+                    </div>
+                    <div class="carousel-container">
+                        <button class="carousel-btn prev" onclick="app.scrollCarousel('popularSeries', -1)"><i class="fas fa-chevron-left"></i></button>
+                        <div class="carousel" id="popularSeries"></div>
+                        <button class="carousel-btn next" onclick="app.scrollCarousel('popularSeries', 1)"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </section>
+
+                <section class="content-section" id="trendingSeriesSection">
+                    <div class="section-header">
+                        <h2 class="section-title"><i class="fas fa-chart-line"></i> Séries Tendances</h2>
+                        <a href="#" class="see-all" onclick="app.showSeries()">Voir tout <i class="fas fa-chevron-right"></i></a>
+                    </div>
+                    <div class="carousel-container">
+                        <button class="carousel-btn prev" onclick="app.scrollCarousel('trendingSeries', -1)"><i class="fas fa-chevron-left"></i></button>
+                        <div class="carousel" id="trendingSeries"></div>
+                        <button class="carousel-btn next" onclick="app.scrollCarousel('trendingSeries', 1)"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Movies View -->
+        <div id="moviesView" class="page-view hidden">
+            <div class="page-hero">
+                <h1 class="page-title">Films</h1>
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="app.filterMovies('popular')">Populaires</button>
+                    <button class="filter-tab" onclick="app.filterMovies('top-rated')">Mieux Notés</button>
+                    <button class="filter-tab" onclick="app.filterMovies('now-playing')">En Salle</button>
+                    <button class="filter-tab" onclick="app.filterMovies('upcoming')">Prochainement</button>
+                    <button class="filter-tab" onclick="app.filterMovies('trending')">Tendances</button>
+                </div>
+            </div>
+            <div class="grid-container" id="moviesGrid"></div>
+            <div class="pagination" id="moviesPagination"></div>
+        </div>
+
+        <!-- Series View -->
+        <div id="seriesView" class="page-view hidden">
+            <div class="page-hero">
+                <h1 class="page-title">Séries TV</h1>
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="app.filterSeries('popular')">Populaires</button>
+                    <button class="filter-tab" onclick="app.filterSeries('top-rated')">Mieux Notées</button>
+                    <button class="filter-tab" onclick="app.filterSeries('on-air')">En Cours</button>
+                    <button class="filter-tab" onclick="app.filterSeries('trending')">Tendances</button>
+                </div>
+            </div>
+            <div class="grid-container" id="seriesGrid"></div>
+            <div class="pagination" id="seriesPagination"></div>
+        </div>
+
+        <!-- Categories View -->
+        <div id="categoriesView" class="page-view hidden">
+            <div class="page-hero">
+                <h1 class="page-title">Catégories</h1>
+            </div>
+            <div class="categories-grid" id="categoriesGrid"></div>
+        </div>
+
+        <!-- Category Browse View -->
+        <div id="categoryBrowseView" class="page-view hidden">
+            <div class="page-hero">
+                <h1 class="page-title" id="categoryBrowseTitle">Catégorie</h1>
+                <button class="btn btn-outline" onclick="app.showCategories()"><i class="fas fa-arrow-left"></i> Retour</button>
+            </div>
+            <div class="grid-container" id="categoryBrowseGrid"></div>
+            <div class="pagination" id="categoryBrowsePagination"></div>
+        </div>
+
+        <!-- Search Results View -->
+        <div id="searchView" class="page-view hidden">
+            <div class="page-hero">
+                <h1 class="page-title">Résultats de recherche</h1>
+                <p class="page-subtitle" id="searchQueryText"></p>
+            </div>
+            <div class="search-tabs">
+                <button class="search-tab active" id="searchTabAll" onclick="app.switchSearchTab('all')">Tout</button>
+                <button class="search-tab" id="searchTabMovies" onclick="app.switchSearchTab('movies')">Films</button>
+                <button class="search-tab" id="searchTabSeries" onclick="app.switchSearchTab('series')">Séries</button>
+            </div>
+            <div class="grid-container" id="searchGrid"></div>
+        </div>
+
+        <!-- Movie Details View -->
+        <div id="movieDetailsView" class="page-view hidden">
+            <div class="details-hero" id="movieDetailsHero">
+                <div class="details-bg" id="movieDetailsBg"></div>
+                <div class="details-overlay"></div>
+                <div class="details-content">
+                    <button class="back-btn" onclick="app.goBack()"><i class="fas fa-arrow-left"></i> Retour</button>
+                    <div class="details-poster">
+                        <img id="movieDetailsPoster" src="" alt="">
+                    </div>
+                    <div class="details-info">
+                        <h1 id="movieDetailsTitle"></h1>
+                        <div class="details-meta" id="movieDetailsMeta"></div>
+                        <p class="details-desc" id="movieDetailsDesc"></p>
+                        <div class="details-cast" id="movieDetailsCast"></div>
+                        <div class="details-actions">
+                            <button class="btn btn-primary btn-lg" onclick="app.playCurrentMovie()">
+                                <i class="fas fa-play"></i> Regarder
+                            </button>
+                            <button class="btn btn-secondary btn-lg" onclick="app.downloadCurrentMovie()">
+                                <i class="fas fa-download"></i> Télécharger
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="details-extra">
+                <h2 class="section-title">Recommandations</h2>
+                <div class="carousel-container">
+                    <button class="carousel-btn prev" onclick="app.scrollCarousel('movieRecommendations', -1)"><i class="fas fa-chevron-left"></i></button>
+                    <div class="carousel" id="movieRecommendations"></div>
+                    <button class="carousel-btn next" onclick="app.scrollCarousel('movieRecommendations', 1)"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Series Details View -->
+        <div id="seriesDetailsView" class="page-view hidden">
+            <div class="details-hero" id="seriesDetailsHero">
+                <div class="details-bg" id="seriesDetailsBg"></div>
+                <div class="details-overlay"></div>
+                <div class="details-content">
+                    <button class="back-btn" onclick="app.goBack()"><i class="fas fa-arrow-left"></i> Retour</button>
+                    <div class="details-poster">
+                        <img id="seriesDetailsPoster" src="" alt="">
+                    </div>
+                    <div class="details-info">
+                        <h1 id="seriesDetailsTitle"></h1>
+                        <div class="details-meta" id="seriesDetailsMeta"></div>
+                        <p class="details-desc" id="seriesDetailsDesc"></p>
+                        <div class="details-cast" id="seriesDetailsCast"></div>
+                        <div class="details-actions">
+                            <button class="btn btn-primary btn-lg" onclick="app.playCurrentSeries()">
+                                <i class="fas fa-play"></i> Regarder S1E1
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="details-extra">
+                <h2 class="section-title">Saisons & Épisodes</h2>
+                <div class="seasons-tabs" id="seasonsTabs"></div>
+                <div class="episodes-grid" id="episodesGrid"></div>
+            </div>
+            <div class="details-extra">
+                <h2 class="section-title">Recommandations</h2>
+                <div class="carousel-container">
+                    <button class="carousel-btn prev" onclick="app.scrollCarousel('seriesRecommendations', -1)"><i class="fas fa-chevron-left"></i></button>
+                    <div class="carousel" id="seriesRecommendations"></div>
+                    <button class="carousel-btn next" onclick="app.scrollCarousel('seriesRecommendations', 1)"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Player View -->
+        <div id="playerView" class="page-view hidden">
+            <div class="player-container">
+                <button class="player-close" onclick="app.closePlayer()"><i class="fas fa-times"></i> Fermer</button>
+                <div class="player-wrapper">
+                    <iframe id="playerFrame" src="" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <div class="player-info" id="playerInfo"></div>
+            </div>
+        </div>
+
+        <!-- Actor View -->
+        <div id="actorView" class="page-view hidden">
+            <div class="page-hero">
+                <h1 class="page-title" id="actorName"></h1>
+            </div>
+            <div class="grid-container" id="actorGrid"></div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="logo-icon"><i class="fas fa-play-circle"></i></span>
+                <span class="logo-text">Lumen<span class="logo-accent">Flix</span></span>
+                <p>Votre plateforme de streaming préférée</p>
+            </div>
+            <div class="footer-links">
+                <a href="#" onclick="app.goHome()">Accueil</a>
+                <a href="#movies" onclick="app.showMovies()">Films</a>
+                <a href="#series" onclick="app.showSeries()">Séries</a>
+                <a href="#categories" onclick="app.showCategories()">Catégories</a>
+            </div>
+            <p class="footer-copy">© 2026 LumenFlix. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+        </div>
+        <p>Chargement...</p>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
